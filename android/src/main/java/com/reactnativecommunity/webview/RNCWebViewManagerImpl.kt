@@ -93,6 +93,19 @@ class RNCWebViewManagerImpl {
         webView.setDownloadListener(DownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
             webView.setIgnoreErrFailedForThisURL(url)
             val module = webView.themedReactContext.getNativeModule(RNCWebViewModule::class.java) ?: return@DownloadListener
+            
+            module.setDataDownloadUrl(null);
+            if (url.startsWith("data:")) {  //when url is base64 encoded data
+                module.setDataDownloadUrl(url);
+                if (module.grantFileDownloaderPermissions(
+                    getDownloadingMessageOrDefault(),
+                    getLackPermissionToDownloadMessageOrDefault()
+                )
+            ) {
+                    module.downloadDataFile();
+                }
+                return;
+            }
             val request: DownloadManager.Request = try {
                 DownloadManager.Request(Uri.parse(url))
             } catch (e: IllegalArgumentException) {
