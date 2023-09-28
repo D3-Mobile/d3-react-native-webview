@@ -44,7 +44,7 @@ public class RNCWebViewModule extends ReactContextBaseJavaModule {
     }
 
     public void setDataDownloadUrl(String dataUrl) {
-        mRNCWebViewModuleImpl.setDownloadRequest(dataUrl);
+        mRNCWebViewModuleImpl.setDataDownloadUrl(dataUrl);
     }
 
     public void downloadDataFile() {

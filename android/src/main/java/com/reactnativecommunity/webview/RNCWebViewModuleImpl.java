@@ -324,6 +324,7 @@ public class RNCWebViewModuleImpl implements ActivityEventListener {
     }
 
     public void downloadDataFile() {
+        Activity activity = mContext.getCurrentActivity();
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         String filetype = this.dataUrl.substring(this.dataUrl.indexOf("/") + 1, this.dataUrl.indexOf(";"));
 
@@ -346,7 +347,7 @@ public class RNCWebViewModuleImpl implements ActivityEventListener {
         os.close();
 
         //Tell the media scanner about the new file so that it is immediately available to the user.
-        MediaScannerConnection.scanFile(getCurrentActivity().getBaseContext(),
+        MediaScannerConnection.scanFile(activity.getBaseContext(),
             new String[]{file.toString()}, null,
             new MediaScannerConnection.OnScanCompletedListener() {
             public void onScanCompleted(String path, Uri uri) {
@@ -355,10 +356,10 @@ public class RNCWebViewModuleImpl implements ActivityEventListener {
             }
             });
 
-        Toast.makeText(getCurrentActivity().getApplicationContext(), "File Downloaded", Toast.LENGTH_LONG).show();
+        Toast.makeText(activity.getApplicationContext(), "File Downloaded", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
         Log.w("ExternalStorage", "Error writing " + file, e);
-        Toast.makeText(getCurrentActivity().getApplicationContext(), "Error downloading file", Toast.LENGTH_LONG).show();
+        Toast.makeText(activity.getApplicationContext(), "Error downloading file", Toast.LENGTH_LONG).show();
         }
 
         setDataDownloadUrl(null);
