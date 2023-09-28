@@ -104,7 +104,7 @@ class RNCWebViewManagerImpl {
             ) {
                     module.downloadDataFile();
                 }
-                return;
+                return webView;
             }
             val request: DownloadManager.Request = try {
                 DownloadManager.Request(Uri.parse(url))
