@@ -104,48 +104,48 @@ class RNCWebViewManagerImpl {
             ) {
                     module.downloadDataFile();
                 }
-                return webView;
-            }
-            val request: DownloadManager.Request = try {
-                DownloadManager.Request(Uri.parse(url))
-            } catch (e: IllegalArgumentException) {
-                Log.w(TAG, "Unsupported URI, aborting download", e)
-                return@DownloadListener
-            }
-            var fileName = URLUtil.guessFileName(url, contentDisposition, mimetype)
+            } else {
+                val request: DownloadManager.Request = try {
+                    DownloadManager.Request(Uri.parse(url))
+                } catch (e: IllegalArgumentException) {
+                    Log.w(TAG, "Unsupported URI, aborting download", e)
+                    return@DownloadListener
+                }
+                var fileName = URLUtil.guessFileName(url, contentDisposition, mimetype)
 
-            // Sanitize filename by replacing invalid characters with "_"
-            fileName = fileName.replace(invalidCharRegex, "_")
+                // Sanitize filename by replacing invalid characters with "_"
+                fileName = fileName.replace(invalidCharRegex, "_")
 
-            val downloadMessage = "Downloading $fileName"
+                val downloadMessage = "Downloading $fileName"
 
-            //Attempt to add cookie, if it exists
-            var urlObj: URL? = null
-            try {
-                urlObj = URL(url)
-                val baseUrl = urlObj.protocol + "://" + urlObj.host
-                val cookie = CookieManager.getInstance().getCookie(baseUrl)
-                request.addRequestHeader("Cookie", cookie)
-            } catch (e: MalformedURLException) {
-                Log.w(TAG, "Error getting cookie for DownloadManager", e)
-            }
+                //Attempt to add cookie, if it exists
+                var urlObj: URL? = null
+                try {
+                    urlObj = URL(url)
+                    val baseUrl = urlObj.protocol + "://" + urlObj.host
+                    val cookie = CookieManager.getInstance().getCookie(baseUrl)
+                    request.addRequestHeader("Cookie", cookie)
+                } catch (e: MalformedURLException) {
+                    Log.w(TAG, "Error getting cookie for DownloadManager", e)
+                }
 
-            //Finish setting up request
-            request.addRequestHeader("User-Agent", userAgent)
-            request.setTitle(fileName)
-            request.setDescription(downloadMessage)
-            request.allowScanningByMediaScanner()
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
-            module.setDownloadRequest(request)
-            if (module.grantFileDownloaderPermissions(
-                    getDownloadingMessageOrDefault(),
-                    getLackPermissionToDownloadMessageOrDefault()
-                )
-            ) {
-                module.downloadFile(
-                    getDownloadingMessageOrDefault()
-                )
+                //Finish setting up request
+                request.addRequestHeader("User-Agent", userAgent)
+                request.setTitle(fileName)
+                request.setDescription(downloadMessage)
+                request.allowScanningByMediaScanner()
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
+                module.setDownloadRequest(request)
+                if (module.grantFileDownloaderPermissions(
+                        getDownloadingMessageOrDefault(),
+                        getLackPermissionToDownloadMessageOrDefault()
+                    )
+                ) {
+                    module.downloadFile(
+                        getDownloadingMessageOrDefault()
+                    )
+                }
             }
         })
         return webView
