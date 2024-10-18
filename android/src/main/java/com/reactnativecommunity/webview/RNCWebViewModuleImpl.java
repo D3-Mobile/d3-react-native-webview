@@ -328,6 +328,11 @@ public class RNCWebViewModuleImpl implements ActivityEventListener {
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         String filetype = this.dataUrl.substring(this.dataUrl.indexOf("/") + 1, this.dataUrl.indexOf(";"));
 
+        // convert .sheet filetype to .xlsx as per https://intuitive-surgical.atlassian.net/browse/CR-5246
+        if (filetype == "sheet") {
+            filetype = "xlsx";
+        }
+
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
         String format = s.format(new Date());
 
