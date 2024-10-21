@@ -329,7 +329,7 @@ public class RNCWebViewModuleImpl implements ActivityEventListener {
         String filetype = this.dataUrl.substring(this.dataUrl.indexOf("/") + 1, this.dataUrl.indexOf(";"));
 
         // convert .sheet filetype to .xlsx as per https://intuitive-surgical.atlassian.net/browse/CR-5246
-        if (filetype == "sheet") {
+        if (filetype.equals("vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
             filetype = "xlsx";
         }
 
