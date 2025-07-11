@@ -8,6 +8,7 @@
 #import "RNCWebViewImpl.h"
 #import <React/RCTConvert.h>
 #import <React/RCTAutoInsetsProtocol.h>
+#include <MobileCoreServices/MobileCoreServices.h>
 #import "RNCWKProcessPoolManager.h"
 #if !TARGET_OS_OSX
 #import <UIKit/UIKit.h>
