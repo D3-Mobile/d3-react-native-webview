@@ -406,10 +406,18 @@ auto stringToOnLoadingFinishNavigationTypeEnum(std::string value) {
             _view.onFileDownload = [self](NSDictionary* dictionary) {
                 if (_eventEmitter) {
                     auto webViewEventEmitter = std::static_pointer_cast<RNCWebViewEventEmitter const>(_eventEmitter);
+
+                    // Get values from dictionary
+                    // If dictionary is empty, convert to empty string
+                    NSString *downloadFileErrorStr = [dictionary valueForKey:@"downloadFileError"];
+                    NSString *downloadedFilePathStr = [dictionary valueForKey:@"downloadedFilePath"];
+                    std::string downloadedFilePath = downloadedFilePathStr ? std::string([downloadedFilePathStr UTF8String]) : std::string();
+                    std::string downloadFileError = downloadFileErrorStr ? std::string([downloadFileErrorStr UTF8String]) : std::string();
+
                     facebook::react::RNCWebViewEventEmitter::OnFileDownload data = {
-                        .downloadUrl = std::string([[dictionary valueForKey:@"downloadUrl"] UTF8String])
-                        .downloadedFilePath = std::string([[dictionary valueForKey:@"downloadedFilePath"] UTF8String])
-                        .downloadFileError = std::string([[dictionary valueForKey:@"downloadFileError"] UTF8String])
+                        .downloadUrl = std::string([[dictionary valueForKey:@"downloadUrl"] UTF8String]),
+                        .downloadedFilePath = downloadedFilePath,
+                        .downloadFileError = downloadFileError
                     };
                     webViewEventEmitter->onFileDownload(data);
                 }
