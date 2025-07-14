@@ -138,6 +138,8 @@ type WebViewRenderProcessGoneEvent = Readonly<{
 
 type WebViewDownloadEvent = Readonly<{
   downloadUrl: string;
+  downloadedFilePath: string
+  downloadFileError?: string
 }>;
 
 // type MenuItem = Readonly<{label: string, key: string}>;
