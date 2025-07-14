@@ -41,6 +41,14 @@ public class RNCWebViewModule extends NativeRNCWebViewModuleSpec {
         mRNCWebViewModuleImpl.setDownloadRequest(request);
     }
 
+    public void setDataDownloadUrl(String dataUrl) {
+        mRNCWebViewModuleImpl.setDataDownloadUrl(dataUrl);
+    }
+
+    public void downloadDataFile() {
+    mRNCWebViewModuleImpl.downloadDataFile();
+  }
+
     public void downloadFile(String downloadingMessage) {
         mRNCWebViewModuleImpl.downloadFile(downloadingMessage);
     }
