@@ -408,6 +408,8 @@ auto stringToOnLoadingFinishNavigationTypeEnum(std::string value) {
                     auto webViewEventEmitter = std::static_pointer_cast<RNCWebViewEventEmitter const>(_eventEmitter);
                     facebook::react::RNCWebViewEventEmitter::OnFileDownload data = {
                         .downloadUrl = std::string([[dictionary valueForKey:@"downloadUrl"] UTF8String])
+                        .downloadedFilePath = std::string([[dictionary valueForKey:@"downloadedFilePath"] UTF8String])
+                        .downloadFileError = std::string([[dictionary valueForKey:@"downloadFileError"] UTF8String])
                     };
                     webViewEventEmitter->onFileDownload(data);
                 }
