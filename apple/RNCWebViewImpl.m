@@ -1457,7 +1457,14 @@ RCTAutoInsetsProtocol>
                 NSString *extension = (__bridge NSString *)(UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassFilenameExtension));
 
                 if ([response.suggestedFilename isEqual: @"Unknown"]) {
-                    [fileName appendString:[NSString stringWithFormat:@"data.%@", extension]];
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                                 
+                    // Get today's date as a string
+                    NSString *todayDate = [dateFormatter stringFromDate:[NSDate date]];
+    
+                    // Create the file name with today's date and append the file name
+                    [fileName appendString:[NSString stringWithFormat:@"Data_%@.%@", todayDate, extension]]; 
                 } else {
                     [fileName appendString:response.suggestedFilename];
                 }
